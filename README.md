@@ -27,6 +27,6 @@ Once you've made your great commits:
 
 Written by Johnny G. Halife (johnny.halife at me dot com) and Juan Pablo Garcia Dalolla (juanpablogarcia at gmail dot com)
 
-Released under the 'do the fuck you want' license.
+Released under the **'do the fuck you want'** license.
 
 
