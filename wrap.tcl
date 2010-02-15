@@ -1,4 +1,4 @@
-# wrap.tcl --
+# wrap.tcl
 #
 #	Procedures to manage OAuth WRAP v0.9 Tokens.
 #
@@ -19,8 +19,7 @@ namespace eval ::oauth::wrap {
 	namespace export  parseToken validSignature?  validAudience?  validIssuer?  expired?  authenticate
 }
 
-
-# ::oauth::wrap::parseToken rawToken
+# ::oauth::wrap::parseToken
 #
 # parses the content of the wrap_access_token excerpt of the WRAP0.9 header
 #
@@ -39,7 +38,7 @@ proc ::oauth::wrap::parseToken {rawToken} {
 	return $wrapToken
 }
 
-# ::oauth::wrap::validSignature? rawToken signingKey
+# ::oauth::wrap::validSignature?
 #
 #  computes and comprares the provided HMACSHA256 with a symmetric algorithm
 #
@@ -58,7 +57,7 @@ proc ::oauth::wrap::validSignature? {rawToken signingKey} {
 	return [string eq $originalSignature $computedHash]
 }
 
-# ::oauth::wrap::validAudience? token audience
+# ::oauth::wrap::validAudience?
 #
 #  validates that the provided audience matches the expected application audience (applies to)
 #
@@ -73,7 +72,7 @@ proc ::oauth::wrap::validAudience? {token audience} {
 	return [string eq [dict get $token Audience] $audience]
 }
 
-# ::oauth::wrap::validIssuer? token trustedIssuer
+# ::oauth::wrap::validIssuer?
 #
 #  validates that the token issuer matches with an expected issuer
 #
@@ -88,7 +87,7 @@ proc ::oauth::wrap::validIssuer? {token trustedIssuer} {
 	return [string eq [dict get $token Issuer] $trustedIssuer]
 }
 
-# ::oauth::wrap::expired? token ttl
+# ::oauth::wrap::expired?
 #
 #  validates that the token is not expired
 #
@@ -103,7 +102,7 @@ proc ::oauth::wrap::expired? {token ttl} {
 	return [expr [expr [dict get $token ExpiresOn] + $ttl] < [clock seconds]]
 }
 
-# ::oauth::wrap::authenticate configuration rawToken
+# ::oauth::wrap::authenticate
 #
 #  parses, validates and returns (when valid) the provided token as part of the WRAP0.9 header
 #
