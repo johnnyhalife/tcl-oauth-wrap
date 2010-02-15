@@ -1,4 +1,4 @@
-## About ##
+# OAuth WRAP 0.9 for Tcl #
 
 Simple implementation of OAuth WRAP 0.9 token validation library for Tcl.
 
