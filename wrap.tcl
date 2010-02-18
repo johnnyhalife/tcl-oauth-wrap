@@ -98,8 +98,8 @@ proc ::oauth::wrap::validIssuer? {token trustedIssuer} {
 # RETURNS:
 #       returns a value indicating whether the token is expired
 #
-proc ::oauth::wrap::expired? {token ttl} {
-	return [expr [expr [dict get $token ExpiresOn] + $ttl] < [clock seconds]]
+proc ::oauth::wrap::expired? {token} {
+	return [expr [dict get $token ExpiresOn] < [clock seconds]]
 }
 
 # ::oauth::wrap::authenticate
@@ -114,12 +114,12 @@ proc ::oauth::wrap::expired? {token ttl} {
 #       returns a token when it is valid or false when some of the preconditions fail
 #
 proc ::oauth::wrap::authenticate {configuration rawToken} {
-	regexp {wrap_access_token=([^&]+)&wrap_access_token_expires_in=([^&]+)} $rawToken match wrapAccessToken ttl
+	regexp {wrap_access_token=([^&]+)} $rawToken match wrapAccessToken
 	set wrapAccessToken [::ncgi::decode $wrapAccessToken] 	
 
 	if ([validSignature? $wrapAccessToken [dict get $configuration signingKey]]) {
 		set token [parseToken $wrapAccessToken]
-		if (![expired? $token $ttl]) {
+		if (![expired? $token]) {
 			if ([validIssuer? $token [dict get $configuration issuer]]) {
 				if ([validAudience? $token [dict get $configuration audience]]) {
 					return $token
