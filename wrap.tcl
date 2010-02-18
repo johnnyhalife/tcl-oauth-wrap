@@ -21,10 +21,10 @@ namespace eval ::oauth::wrap {
 
 # ::oauth::wrap::parseToken
 #
-# parses the content of the wrap_access_token excerpt of the WRAP0.9 header
+# parses the content of the access_token excerpt of the WRAP0.9 header
 #
 # ARGS:
-#       rawToken	the url decoded (using ncgi) wrap_access_token excerpt of the WRAP0.9 header
+#       rawToken	the url decoded (using ncgi) access_token excerpt of the WRAP0.9 header
 #
 # RETURNS:
 #       a dictionary containing key-value pairs for each of the token values
@@ -43,7 +43,7 @@ proc ::oauth::wrap::parseToken {rawToken} {
 #  computes and comprares the provided HMACSHA256 with a symmetric algorithm
 #
 # ARGS:
-#       rawToken	the url decoded (using ncgi) wrap_access_token excerpt of the WRAP0.9 header
+#       rawToken	the url decoded (using ncgi) access_token excerpt of the WRAP0.9 header
 #       signingKey	the base64 encoded value of the application key used to sign the message
 #
 # RETURNS:
@@ -93,7 +93,6 @@ proc ::oauth::wrap::validIssuer? {token trustedIssuer} {
 #
 # ARGS:
 #       token		a dictionary containing the key-value pair of the received token
-#       ttl			the wrap_access_token_expires_in provided excerpt of the WRAP0.9 header
 #
 # RETURNS:
 #       returns a value indicating whether the token is expired
@@ -114,7 +113,7 @@ proc ::oauth::wrap::expired? {token} {
 #       returns a token when it is valid or false when some of the preconditions fail
 #
 proc ::oauth::wrap::authenticate {configuration rawToken} {
-	regexp {wrap_access_token=([^&]+)} $rawToken match wrapAccessToken
+	regexp {access_token=([^&]+)} $rawToken match wrapAccessToken
 	set wrapAccessToken [::ncgi::decode $wrapAccessToken] 	
 
 	if ([validSignature? $wrapAccessToken [dict get $configuration signingKey]]) {
